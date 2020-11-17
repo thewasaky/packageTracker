@@ -1,6 +1,6 @@
 var map;
 var marker;
-<script src="https://maps.googleapis.com/maps/api/js?libraries=drawing,visualization,geometry&key=AIzaSyDJwkpHto3xbMolVuELi09-EtuASUjbNaQ&callback=initMap" async defer></script>
+
 function initialize() {
   geocoder = new google.maps.Geocoder();
   var mapOptions = {

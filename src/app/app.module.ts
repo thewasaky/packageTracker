@@ -6,15 +6,20 @@ import { AppComponent } from './app.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { InicioComponent } from './inicio/inicio.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LoginComponent } from './login/login.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    InicioComponent
+    InicioComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+
   ],
   providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]
