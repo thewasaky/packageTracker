@@ -11,3 +11,17 @@ function mensajeErrorIniciarSesion() {
     },
   });
 }
+
+function mensajeGuardado() {
+  $.alert({
+    icon: "fa fa-check",
+    title: "¡Guardado exitoso!",
+    content:
+      "La información se ha guardado exitosamente",
+    type: "green",
+    typeAnimated: true,
+    buttons: {
+      aceptar: function () {},
+    },
+  });
+}

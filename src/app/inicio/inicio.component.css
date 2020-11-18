@@ -23,3 +23,16 @@
   opacity: .5;
 
 }
+.print{
+  display: none;
+}
+
+@media print {
+  .no-print {
+      display: none;
+  }
+
+  .print{
+      display: block;
+  }
+}

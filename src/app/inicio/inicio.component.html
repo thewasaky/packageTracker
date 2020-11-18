@@ -1,9 +1,24 @@
 
+<div class="no-print">
+
 
 <!--agm-map width="100%" height="500px" [zoom]="zoom" [latitude]="position.lat" [longitude]="position.lng"  (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
 <agm-marker *ngFor="let marker of markers" [latitude]="marker.position.lat" [longitude]="marker.position.lng"  [markerDraggable]="true"
 (markerClick)="selectMarker($event)"></agm-marker>
 </agm-map-->
+<div class="container">
+  <div class="form-row">
+  <div class="form-group col-lg-4">
+    <label for="numeropaquete">codigo de rastreo</label>
+    <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="numRastreo">
+  </div>
+  <div class="form-group col-lg-4">
+    <label for="codEmpleado">codigo empleado</label>
+    <input type="text" class="form-control" id="codEmpleado" [(ngModel)]="numEmpleado">
+  </div>
+  </div>
+</div>
+
 
 <div class="container">
   <div id="map"></div>
@@ -37,5 +52,35 @@
       </div>
     </div>
   </div>
+  <div class="col-lg-12 text-right">
+<button class="btn btn-primary" (click)="guardar();">
+      Guardar e imprimir
+    </button>
+  </div>
+</div>
+</div>
+<div class="row print">
+<div class="container">
+  <div class="col-lg-6">
+    <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http%3A%2F%2Fwww.google.com%2F&choe=UTF-8" id="imagen" />
+  </div>
+  <div class="col-lg-6">
+    <div class="form-row">
+      <div class="form-group col-lg-12">
+        <label for="calle">Calle</label>
+        <input type="text" class="form-control" id="calle2">
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="colonia">Colonia</label>
+        <input type="text" class="form-control" id="colonia2">
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="numero">Numero</label>
+        <input type="text" class="form-control" id="numeroExterior2">
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 

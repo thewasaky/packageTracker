@@ -26,6 +26,9 @@ export class InicioComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = this.locacion;
 
+  numEmpleado="";
+  numRastreo="";
+
 
   wayPoints = [
     {
@@ -66,6 +69,8 @@ directionsDisplay = new google.maps.DirectionsRenderer()
       this.deleteMarkers();
       this.saveMarker(event.latLng);
       this.codeLatLng(event.latLng);
+      var a=<HTMLImageElement>document.getElementById("imagen");
+      a.src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="+event.latLng+"&choe=UTF-8";
   });
 
   this.directionsDisplay.setMap(this.map);
@@ -81,12 +86,16 @@ directionsDisplay = new google.maps.DirectionsRenderer()
     var crd = {lat: a.coords.latitude, lng: a.coords.longitude};
 
     this.saveMarker(crd);
-    this.codeLatLng(crd);
+    this.codeLatLng2(crd);
   }
 
   error(a){
 
 
+  }
+
+  guardar(){
+    window.print();
   }
 
   // Sets the map on all markers in the array.
@@ -144,13 +153,40 @@ directionsDisplay = new google.maps.DirectionsRenderer()
                 (<HTMLInputElement>document.getElementById("calle")).value = domicilio[0].substring(0, domicilio[0].lastIndexOf(" "));
                 (<HTMLInputElement>document.getElementById("numeroExterior")).value = domicilio[0].substring(domicilio[0].lastIndexOf(" ") + 1);
                 (<HTMLInputElement>document.getElementById("colonia")).value = domicilio[1];
+                (<HTMLInputElement>document.getElementById("calle2")).value = domicilio[0].substring(0, domicilio[0].lastIndexOf(" "));
+                (<HTMLInputElement>document.getElementById("numeroExterior2")).value = domicilio[0].substring(domicilio[0].lastIndexOf(" ") + 1);
+                (<HTMLInputElement>document.getElementById("colonia2")).value = domicilio[1];
             } else {
-                alert('No results found');
+               // alert('No results found');
             }
         } else {
-            alert('Geocoder failed due to: ' + status);
+            //alert('Geocoder failed due to: ' + status);
         }
     });
+}
+codeLatLng2(location) {
+
+
+  var latlng = location;
+  geocoder.geocode({ 'location': latlng }, function (results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+
+              //debugger;
+              var domicilio = results[0].formatted_address.split(',');
+              (<HTMLInputElement>document.getElementById("calle")).value = domicilio[0].substring(0, domicilio[0].lastIndexOf(" "));
+              (<HTMLInputElement>document.getElementById("numeroExterior")).value = domicilio[0].substring(domicilio[0].lastIndexOf(" ") + 1);
+              (<HTMLInputElement>document.getElementById("colonia")).value = domicilio[1];
+              (<HTMLInputElement>document.getElementById("calle2")).value = domicilio[0].substring(0, domicilio[0].lastIndexOf(" "));
+              (<HTMLInputElement>document.getElementById("numeroExterior2")).value = domicilio[0].substring(domicilio[0].lastIndexOf(" ") + 1);
+              (<HTMLInputElement>document.getElementById("colonia2")).value = domicilio[1];
+          } else {
+             // alert('No results found');
+          }
+      } else {
+          //alert('Geocoder failed due to: ' + status);
+      }
+  });
 }
 
 
@@ -169,15 +205,29 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 
 handleEvent(event) {
   var crd = {lat:event.latLng.lat(), lng: event.latLng.lng()};
-  this.markern.setPosition(location);
-  this.codeLatLng(location);
+  if (this.markern!=null) {
+    this.markern.setPosition(location);
+    this.codeLatLng(event.latLng);
+} else {
+    this.markern = new google.maps.Marker({
+        position: location,
+        animation: google.maps.Animation.DROP,
+        draggable: true,
+        map: this.map
+
+    });
+        //this.markern.addListener('drag', this.handleEvent);
+        this.markern.addListener('dragend', this.handleEvent);
+    this.codeLatLng(location);
+}
+  this.codeLatLng(event.latLng);
 
 }
 
   saveMarker(location) {
     if (this.markern!=null) {
       this.markern.setPosition(location);
-      this.codeLatLng(location);
+      this.codeLatLng2(location);
   } else {
       this.markern = new google.maps.Marker({
           position: location,
@@ -186,9 +236,9 @@ handleEvent(event) {
           map: this.map
 
       });
-          this.markern.addListener('drag', this.handleEvent);
-          this.markern.addListener('dragend', this.handleEvent);
-      this.codeLatLng(location);
+          //this.markern.addListener('drag', this.handleEvent);
+          //this.markern.addListener('dragend', this.handleEvent);
+      this.codeLatLng2(location);
   }
 
     //this.markers.push(marker);
