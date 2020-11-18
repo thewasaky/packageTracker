@@ -20,6 +20,7 @@ interface Marker {
 
 export class InicioComponent implements OnInit {
   markers = [];
+  markern=null;
   locacion="";
   elementType = NgxQrcodeElementTypes.IMG;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -48,8 +49,6 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 
   }
 
-
-
   loadMap() {
     // create a new map by passing HTMLElement
     const mapEle: HTMLElement = document.getElementById('map');
@@ -63,13 +62,16 @@ directionsDisplay = new google.maps.DirectionsRenderer()
     });
     // This event listener will call addMarker() when the map is clicked.
     google.maps.event.addListener(this.map, 'click',  (event)=> {
+      //this.saveMarker(event.latLng);
+      this.deleteMarkers();
       this.saveMarker(event.latLng);
       this.codeLatLng(event.latLng);
   });
+
   this.directionsDisplay.setMap(this.map);
   this.directionsDisplay.setPanel(indicatorsEle);
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
-      this.renderMarkers();
+      //this.renderMarkers();
 
       mapEle.classList.add('show-map');
     });
@@ -79,12 +81,32 @@ directionsDisplay = new google.maps.DirectionsRenderer()
     var crd = {lat: a.coords.latitude, lng: a.coords.longitude};
 
     this.saveMarker(crd);
+    this.codeLatLng(crd);
   }
 
   error(a){
 
 
   }
+
+  // Sets the map on all markers in the array.
+ setMapOnAll() {
+  for (let i = 0; i <this.markers.length; i++) {
+    this.markers[i].setMap(this.map);
+  }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+ clearMarkers() {
+  this.setMapOnAll();
+}
+
+// Deletes all markers in the array by removing references to them.
+ deleteMarkers() {
+  this.clearMarkers();
+  this.markers = [];
+}
+
 
   calculateRoute() {
     var pos=0;
@@ -142,24 +164,44 @@ directionsDisplay = new google.maps.DirectionsRenderer()
         draggable:true
       });
 
+
+}
+
+handleEvent(event) {
+  var crd = {lat:event.latLng.lat(), lng: event.latLng.lng()};
+  this.markern.setPosition(location);
+  this.codeLatLng(location);
+
 }
 
   saveMarker(location) {
-    
-    this.markers.push({
-      position: location
-    });
-    this.addMarkers(location);
-    this.locacion=location;
-    document.getElementById("codigo").innerHTML='<ngx-qrcode    [elementType]="elementType"    [errorCorrectionLevel]="correctionLevel"    [value]="value"    cssClass="bshadow"></ngx-qrcode>';
+    if (this.markern!=null) {
+      this.markern.setPosition(location);
+      this.codeLatLng(location);
+  } else {
+      this.markern = new google.maps.Marker({
+          position: location,
+          animation: google.maps.Animation.DROP,
+          draggable: true,
+          map: this.map
+
+      });
+          this.markern.addListener('drag', this.handleEvent);
+          this.markern.addListener('dragend', this.handleEvent);
+      this.codeLatLng(location);
   }
 
+    //this.markers.push(marker);
 
+    //this.addMarkers(location);
+    //this.locacion=location;
+   // document.getElementById("codigo").innerHTML='<ngx-qrcode    [elementType]="elementType"    [errorCorrectionLevel]="correctionLevel"    [value]="value"    cssClass="bshadow"></ngx-qrcode>';
+  }
 
 
   renderMarkers() {
     this.markers.forEach(marker => {
-      this.addMarkers(marker.position);
+      this.addMarkers(marker);
     });
   }
 

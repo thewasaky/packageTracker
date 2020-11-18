@@ -27,7 +27,8 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/mapa.js"
+              "src/assets/mapa.js",
+              "src/assets/mensajes.js"
             ]
           },
           "configurations": {

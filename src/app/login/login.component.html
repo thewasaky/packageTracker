@@ -1,1 +1,52 @@
-<p>login works!</p>
+<div class="container">
+  <div class="row h-100">
+    <div class="col-md-6 offset-md-3 p-5" style="margin-top:15%; background-color: lightslategrey; border-radius: 5px;">
+      <div class="row">
+<div class="col-lg-6 ">
+        <h3>Inicio de sesion</h3>
+      </div>
+
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Numero de empleado</label>
+          <input
+            type="text"
+
+            formControlName="NumEmpleado"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.NumEmpleado.errors }"
+          />
+          <div
+            *ngIf="submitted && f.NumEmpleado.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.NumEmpleado.errors.required">
+              El numero de empleado es requerido
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+          />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Contraseña requerida</div>
+            <div *ngIf="f.password.errors.minlength">
+              La contraseña debe ser mayor a 6 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-right">
+          <button class="btn btn-primary" style="border-radius: 20px;">Iniciar sesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
