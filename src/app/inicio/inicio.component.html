@@ -1,28 +1,38 @@
 
-<div class="no-print">
+<div class="no-print" style="background-image: url('https://c.wallhere.com/photos/1a/58/city_night_lights_skyscraper_speed_hdr-1088949.jpg!d'); background-attachment: fixed;  background-repeat: no-repeat;
+background-attachment: fixed; background-size: cover;">
 
 
 <!--agm-map width="100%" height="500px" [zoom]="zoom" [latitude]="position.lat" [longitude]="position.lng"  (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
 <agm-marker *ngFor="let marker of markers" [latitude]="marker.position.lat" [longitude]="marker.position.lng"  [markerDraggable]="true"
 (markerClick)="selectMarker($event)"></agm-marker>
 </agm-map-->
-<div class="container">
-  <div class="form-row">
-  <div class="form-group col-lg-4">
-    <label for="numeropaquete">codigo de rastreo</label>
-    <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="numRastreo">
+
+
+
+
+
+<div style="background-color: rgba(0, 0, 0, 0.74); padding-top:1.5%; color:white" >
+  <div class="container">
+    <div class="form-row">
+
+    <div class="form-group col-lg-4">
+      <label for="codEmpleado">codigo empleado</label>
+      <input type="text" class="form-control" id="codEmpleado" [(ngModel)]="numEmpleado">
+    </div>
+    <div class="form-group col-lg-4">
+      <label for="ruta">Id de Ruta</label>
+      <input type="text" class="form-control" id="ruta" [(ngModel)]="idRuta" disabled>
+    </div>
+    </div>
+    <div class="col-lg-12">
+      <button class="btn btn-success" (click)="crearRuta()">
+        Crear ruta
+      </button>
+    </div>
+
   </div>
-  <div class="form-group col-lg-4">
-    <label for="codEmpleado">codigo empleado</label>
-    <input type="text" class="form-control" id="codEmpleado" [(ngModel)]="numEmpleado">
-  </div>
-  </div>
-</div>
 
-
-
-
-<div style="background-color: rgba(0, 0, 0, 0.74); margin-top:5%; color:white" >
 <div class="container" style="margin-top: 2%;" >
   <br>
   <div id="map"></div>
@@ -43,6 +53,12 @@
   <div class="col-lg-12">
     <div class="form-row">
       <div class="form-group col-lg-4">
+        <label for="numeropaquete">codigo de rastreo</label>
+        <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="numRastreo">
+      </div>
+    </div>
+      <div class="form-row">
+      <div class="form-group col-lg-4">
         <label for="calle">Calle</label>
         <input type="text" class="form-control" id="calle">
       </div>
@@ -61,6 +77,7 @@
       Guardar e imprimir
     </button>
   </div>
+</div>
 </div>
 </div>
 <div class="row print">
@@ -87,5 +104,5 @@
 
 </div>
 </div>
-</div>
+
 

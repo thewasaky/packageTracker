@@ -11,4 +11,7 @@ export class ConexionApiService {
   obtenerUsuario(usr,pass){
     return this.http.get(`${this.url}obtenerUsuario.php?usr=${usr}&pass=${pass}`);
   }
+  crearRuta(numEmpleado){
+    return this.http.get(`${this.url}crearRuta.php?num=${numEmpleado}`);
+  }
 }

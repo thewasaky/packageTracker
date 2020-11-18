@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
-
+import { ConexionApiService } from '../conexion-api.service';
+import { CookieService } from 'ngx-cookie-service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 declare var google;
 declare var geocoder;
 declare var $:any;
@@ -28,7 +31,7 @@ export class InicioComponent implements OnInit {
 
   numEmpleado="";
   numRastreo="";
-
+  idRuta=null;
 
   wayPoints = [
     {
@@ -44,7 +47,10 @@ export class InicioComponent implements OnInit {
   directionsService = new google.maps.DirectionsService();
 directionsDisplay = new google.maps.DirectionsRenderer()
 
-  constructor() { }
+  constructor(private con: ConexionApiService,
+    private cookie: CookieService,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -93,7 +99,23 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 
 
   }
+  crearRuta(){
+    var num=(<HTMLInputElement>document.getElementById("codEmpleado"));
+    if(num.value!=""){
+      num.disabled=true;
+      this.con.crearRuta(num.value).subscribe(
+        result=>{
+          if(result[0]!=null){
+            this.idRuta=result[0].id;
+            alert("ruta generada");
+          }else{
+            alert("error al crear ruta");
+          }
+        }
+      );
+    }
 
+  }
   guardar(){
     window.print();
   }
@@ -212,7 +234,7 @@ handleEvent(event) {
     this.markern = new google.maps.Marker({
         position: location,
         animation: google.maps.Animation.DROP,
-        draggable: true,
+
         map: this.map
 
     });
@@ -232,7 +254,7 @@ handleEvent(event) {
       this.markern = new google.maps.Marker({
           position: location,
           animation: google.maps.Animation.DROP,
-          draggable: true,
+
           map: this.map
 
       });
