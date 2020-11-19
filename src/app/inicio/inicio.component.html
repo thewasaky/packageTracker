@@ -24,17 +24,24 @@ background-attachment: fixed; background-size: cover;">
       <label for="ruta">Id de Ruta</label>
       <input type="text" class="form-control" id="ruta" [(ngModel)]="idRuta" disabled>
     </div>
-    </div>
-    <div class="col-lg-12">
-      <button class="btn btn-success" (click)="crearRuta()">
+    <div class="form-group col-lg-4">
+
+
+      <label>&nbsp;</label>
+      <button class="btn btn-success form-control" (click)="crearRuta()">
         Crear ruta
       </button>
     </div>
+    </div>
+
 
   </div>
 
-<div class="container" style="margin-top: 2%;" >
+
+<div class="container" >
+
   <br>
+  <p>Da click en el mapa para colocar el marcador</p>
   <div id="map"></div>
 </div>
 
@@ -79,6 +86,10 @@ background-attachment: fixed; background-size: cover;">
   </div>
 </div>
 </div>
+
+
+
+
 </div>
 <div class="row print">
 <div class="container">
@@ -87,6 +98,18 @@ background-attachment: fixed; background-size: cover;">
   </div>
   <div class="col-lg-6">
     <div class="form-row">
+      <div class="form-group col-lg-12">
+        <label for="numeropaquete">ID de ruta</label>
+        <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="idRuta">
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="numeropaquete">Codigo empleado</label>
+        <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="numEmpleado">
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="numeropaquete">codigo de rastreo</label>
+        <input type="text" class="form-control" id="numeropaquete" [(ngModel)]="numRastreo">
+      </div>
       <div class="form-group col-lg-12">
         <label for="calle">Calle</label>
         <input type="text" class="form-control" id="calle2">
@@ -99,10 +122,9 @@ background-attachment: fixed; background-size: cover;">
         <label for="numero">Numero</label>
         <input type="text" class="form-control" id="numeroExterior2">
       </div>
+
     </div>
   </div>
 
 </div>
 </div>
-
-

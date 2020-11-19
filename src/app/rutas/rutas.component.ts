@@ -15,21 +15,20 @@ interface Marker {
   title: string;
 }
 @Component({
-  selector: 'app-inicio',
-  templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css']
-
+  selector: 'app-rutas',
+  templateUrl: './rutas.component.html',
+  styleUrls: ['./rutas.component.css']
 })
-
-export class InicioComponent implements OnInit {
+export class RutasComponent implements OnInit {
   markers = [];
+  datosRuta=null;
   markern=null;
   locacion="";
   elementType = NgxQrcodeElementTypes.IMG;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = this.locacion;
-
-  numEmpleado="";
+  numEmps=null;
+  numEmpleado="0";
   numRastreo="";
   idRuta=null;
 
@@ -55,29 +54,85 @@ directionsDisplay = new google.maps.DirectionsRenderer()
   ngOnInit(): void {
 
     this.loadMap();
+    this.obtenerEmpleados();
+  }
 
+  buscar(){
+  this.idRuta=this.numEmpleado;
+  this.wayPoints=[];
+  this.con.obtenerRutas(this.idRuta).subscribe(
+    result=>{
+      if(result[0]!=null){
+        this.datosRuta=result;
+        var pos=0;
+        this.datosRuta.forEach(e => {
+          console.log(e.latlng);
+          if(pos>0 || pos<(this.datosRuta.length-1)){
+
+            var latlngStr = e.latlng.split(',', 2);
+
+            var latlng = { lat: parseFloat(latlngStr[0].replace('(', '')), lng: parseFloat(latlngStr[1].replace(')', '')) };
+            this.wayPoints.push({ location: latlng,
+              stopover: true,});
+          }
+          pos++;
+
+        });
+         var latlngStr1 = this.datosRuta[0].latlng.split(',', 2);
+
+            var origen = { lat: parseFloat(latlngStr1[0].replace('(', '')), lng: parseFloat(latlngStr1[1].replace(')', '')) };
+            var latlngStr2 = this.datosRuta[this.datosRuta.length-1].latlng.split(',', 2);
+
+            var destino = { lat: parseFloat(latlngStr2[0].replace('(', '')), lng: parseFloat(latlngStr2[1].replace(')', '')) };
+        this.directionsService.route({
+
+          origin: origen,
+          destination: destino,
+          waypoints: this.wayPoints,
+          optimizeWaypoints: true,
+          travelMode: google.maps.TravelMode.DRIVING,
+        }, (response, status)  => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            this.directionsDisplay.setDirections(response);
+          } else {
+            alert('Could not display directions due to: ' + status);
+          }
+        });
+      }
+    }
+  );
+  }
+
+  obtenerEmpleados(){
+    this.con.obtenerNumerosEmpleados().subscribe(
+      result=>{
+        if(result[0]!=null){
+          this.numEmps=result;
+        }
+      }
+    );
   }
 
   loadMap() {
     // create a new map by passing HTMLElement
-    const mapEle: HTMLElement = document.getElementById('map');
+    const mapEle: HTMLElement = document.getElementById('mapa');
     const indicatorsEle: HTMLElement = document.getElementById('indicators');
     // create LatLng object
     const myLatLng = {lat: 28.638692, lng: -106.077344};
     // create map
     this.map = new google.maps.Map(mapEle, {
       center: myLatLng,
-      zoom: 12
+      zoom: 13
     });
     // This event listener will call addMarker() when the map is clicked.
-    google.maps.event.addListener(this.map, 'click',  (event)=> {
+   /* google.maps.event.addListener(this.map, 'click',  (event)=> {
       //this.saveMarker(event.latLng);
       this.deleteMarkers();
       this.saveMarker(event.latLng);
       this.codeLatLng(event.latLng);
       var a=<HTMLImageElement>document.getElementById("imagen");
       a.src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="+event.latLng+"&choe=UTF-8";
-  });
+  });*/
 
   this.directionsDisplay.setMap(this.map);
   this.directionsDisplay.setPanel(indicatorsEle);
@@ -136,7 +191,7 @@ directionsDisplay = new google.maps.DirectionsRenderer()
             var a=<HTMLImageElement>document.getElementById("imagen");
             a.src="";
             this.numRastreo="";
-            this.deleteMarkers();
+
           }else{
             alert(datos["mensaje"]);
           }
@@ -194,8 +249,6 @@ directionsDisplay = new google.maps.DirectionsRenderer()
       }
     });
     }
-
-
   codeLatLng(location) {
 
     var input = location + '';

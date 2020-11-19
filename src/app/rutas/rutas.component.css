@@ -1,4 +1,4 @@
-#map {
+#mapa {
   width: 100%;
   height: 600px;
   opacity: 1;
@@ -24,17 +24,4 @@
   filter: drop-shadow(5px 5px 5px #222222);
   opacity: .5;
 
-}
-.print{
-  display: none;
-}
-
-@media print {
-  .no-print {
-      display: none;
-  }
-
-  .print{
-      display: block;
-  }
 }

@@ -51,7 +51,7 @@ get f() {
       )
       .subscribe((result) => {
         if (result[0] != null){
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['/menu']);
        } else {
           mensajeErrorIniciarSesion();
         }

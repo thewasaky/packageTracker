@@ -14,4 +14,13 @@ export class ConexionApiService {
   crearRuta(numEmpleado){
     return this.http.get(`${this.url}crearRuta.php?num=${numEmpleado}`);
   }
+  guardarEnRuta(numRastreo,latlng,idRuta){
+    return this.http.get(`${this.url}guardarEnRuta.php?num=${numRastreo}&latlng=${latlng}&idRuta=${idRuta}`);
+  }
+  obtenerRutas(idRuta){
+    return this.http.get(`${this.url}obtenerRutas.php?idRuta=${idRuta}`);
+  }
+  obtenerNumerosEmpleados(){
+    return this.http.get(`${this.url}obtenerNumerosEmpleados.php`);
+  }
 }

@@ -11,13 +11,17 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
 import { ConexionApiService } from "./conexion-api.service";
 import { CookieService } from 'ngx-cookie-service';
+import { MenuComponent } from './menu/menu.component';
+import { RutasComponent } from './rutas/rutas.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     InicioComponent,
-    LoginComponent
+    LoginComponent,
+    MenuComponent,
+    RutasComponent
   ],
   imports: [
     BrowserModule,
